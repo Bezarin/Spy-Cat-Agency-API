@@ -12,6 +12,8 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int = 5432
     POSTGRES_DB: str
 
+    CATAPI_URL: str = "https://api.thecatapi.com/v1/breeds"
+
     @property
     def DATABASE_URL(self) -> str:
         return (
