@@ -28,7 +28,7 @@ A FastAPI-based REST API for managing spy cats, their missions, and mission targ
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Bezarin/DevelopsToday-test-task
+git clone https://github.com/Bezarin/Spy-Cat-Agency-API
 cd DevelopsToday-test-task
 ```
 
@@ -52,6 +52,12 @@ POSTGRES_HOST=localhost uv run alembic upgrade head
 ### 4. Verify Installation
 
 Visit <http://localhost:8000/docs> to see the interactive API documentation (Swagger UI).
+
+## Postman Collection
+
+You can test all API endpoints using the provided Postman collection:
+
+**📁 [Spy Cat Agency API - Postman Collection](./postman/Spy_Cat_Agency_API.postman_collection.json)**
 
 ## API Endpoints
 
