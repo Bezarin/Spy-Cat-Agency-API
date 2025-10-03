@@ -1,0 +1,479 @@
+{
+  "info": {
+    "_postman_id": "12345678-1234-1234-1234-123456789abc",
+    "name": "Spy Cat Agency API",
+    "description": "API for managing spy cats, missions, and targets for the Spy Cat Agency",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "12345678"
+  },
+  "item": [
+    {
+      "name": "Cats",
+      "item": [
+        {
+          "name": "Create Cat",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has cat data\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('id');",
+                  "    pm.expect(jsonData).to.have.property('name');",
+                  "    pm.expect(jsonData).to.have.property('breed');",
+                  "    pm.expect(jsonData).to.have.property('years_experience');",
+                  "    pm.expect(jsonData).to.have.property('salary');",
+                  "});",
+                  "",
+                  "pm.test(\"Save cat ID for other requests\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.globals.set(\"catId\", jsonData.id);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Agent Whiskers\",\n    \"years_experience\": 5,\n    \"breed\": \"Siamese\",\n    \"salary\": 50000.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cats/",
+              "host": ["{{baseUrl}}"],
+              "path": ["cats", ""]
+            },
+            "description": "Create a new spy cat. The breed will be validated against TheCatAPI."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Agent Whiskers\",\n    \"years_experience\": 5,\n    \"breed\": \"Siamese\",\n    \"salary\": 50000.0\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cats/",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cats", ""]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"name\": \"Agent Whiskers\",\n    \"years_experience\": 5,\n    \"breed\": \"Siamese\",\n    \"salary\": 50000.0\n}"
+            }
+          ]
+        },
+        {
+          "name": "List All Cats",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response is an array\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an('array');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cats/",
+              "host": ["{{baseUrl}}"],
+              "path": ["cats", ""]
+            },
+            "description": "Get a list of all spy cats in the system."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cats/",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cats", ""]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Agent Whiskers\",\n        \"years_experience\": 5,\n        \"breed\": \"Siamese\",\n        \"salary\": 50000.0\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Spy Cat\",\n        \"years_experience\": 3,\n        \"breed\": \"Persian\",\n        \"salary\": 45000.0\n    }\n]"
+            }
+          ]
+        },
+        {
+          "name": "Get Cat by ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Response has cat data\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('id');",
+                  "    pm.expect(jsonData).to.have.property('name');",
+                  "    pm.expect(jsonData).to.have.property('breed');",
+                  "    pm.expect(jsonData).to.have.property('years_experience');",
+                  "    pm.expect(jsonData).to.have.property('salary');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cats/{{catId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cats", "{{catId}}"]
+            },
+            "description": "Get a specific spy cat by its ID."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cats/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cats", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"name\": \"Agent Whiskers\",\n    \"years_experience\": 5,\n    \"breed\": \"Siamese\",\n    \"salary\": 50000.0\n}"
+            },
+            {
+              "name": "Cat Not Found",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cats/999",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cats", "999"]
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Cat with id 999 not found\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Cat Salary",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Salary is updated\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.salary).to.eql(55000.0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"salary\": 55000.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cats/{{catId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cats", "{{catId}}"]
+            },
+            "description": "Update a spy cat's salary. Currently, only salary can be updated."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"salary\": 55000.0\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cats/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cats", "1"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"id\": 1,\n    \"name\": \"Agent Whiskers\",\n    \"years_experience\": 5,\n    \"breed\": \"Siamese\",\n    \"salary\": 55000.0\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Cat",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 204\", function () {",
+                  "    pm.response.to.have.status(204);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cats/{{catId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["cats", "{{catId}}"]
+            },
+            "description": "Delete a spy cat from the system. Cannot delete cats with active missions."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cats/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cats", "1"]
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            },
+            {
+              "name": "Cat with Active Missions",
+              "originalRequest": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/cats/1",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cats", "1"]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Cannot delete cat with active missions. Complete or reassign missions first.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Cat - Invalid Breed",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test(\"Error message mentions invalid breed\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.detail).to.include('Invalid breed');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Invalid Cat\",\n    \"years_experience\": 2,\n    \"breed\": \"NonExistentBreed\",\n    \"salary\": 40000.0\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/cats/",
+              "host": ["{{baseUrl}}"],
+              "path": ["cats", ""]
+            },
+            "description": "Test case for creating a cat with an invalid breed that doesn't exist in TheCatAPI."
+          },
+          "response": [
+            {
+              "name": "Invalid Breed Error",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Invalid Cat\",\n    \"years_experience\": 2,\n    \"breed\": \"NonExistentBreed\",\n    \"salary\": 40000.0\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/cats/",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["cats", ""]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"detail\": \"Invalid breed: NonExistentBreed. Please use a valid cat breed.\"\n}"
+            }
+          ]
+        }
+      ],
+      "description": "API endpoints for managing spy cats in the Spy Cat Agency system."
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    }
+  ]
+}
