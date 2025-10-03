@@ -4,9 +4,27 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - "8002:8000"
+      - "${API_PORT:-8000}:8000"
     env_file:
       - .env
     volumes:
       - ./app:/app/app
     restart: unless-stopped
+  db:
+    image: postgres:18.0-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+volumes:
+  postgres_data:
