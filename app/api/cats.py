@@ -98,9 +98,7 @@ async def delete_cat(cat_id: int, session: Session = Depends(get_session)):
         )
 
     if cat.missions:
-        active_missions = [
-            mission for mission in cat.missions if not mission.is_complete
-        ]
+        active_missions = [mission for mission in cat.missions if not mission.complete]
         if active_missions:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
